@@ -1,0 +1,68 @@
+{
+  "description": "Defines PII detection rules for the NLQ agent's schema masking layer. 'pii_keywords' are matched against column names (case-insensitive substring match) to flag PII columns before schema info is passed to the LLM. 'pii_patterns' are regex patterns applied to data values to catch PII that may surface in query results or agent responses. This config is intentionally generic and applies to retail, ERP, and any future financial datasource — add entries here when new PII surface areas are identified, with no code changes required.",
+  "last_updated": "2026-04-11",
+  "pii_keywords": [
+    "email",
+    "phone",
+    "address",
+    "name",
+    "ssn",
+    "tax_id",
+    "passport",
+    "date_of_birth",
+    "dob",
+    "ip_address",
+    "device_id",
+    "credit_card",
+    "account_number",
+    "routing_number",
+    "salary",
+    "income",
+    "national_id",
+    "birth_date",
+    "birthdate",
+    "gender",
+    "nationality",
+    "ethnicity",
+    "license",
+    "iban",
+    "swift",
+    "bic",
+    "nino",
+    "sin",
+    "zip",
+    "postal"
+  ],
+  "pii_patterns": [
+    {
+      "name": "email",
+      "description": "Standard email address format.",
+      "pattern": "\\b[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}\\b"
+    },
+    {
+      "name": "us_phone",
+      "description": "US phone numbers in common formats: (800) 555-1234, 800-555-1234, +1 800 555 1234, etc. First digit of area code must be 2–9.",
+      "pattern": "\\b(\\+?1[-.\\s]?)?\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}\\b"
+    },
+    {
+      "name": "ssn",
+      "description": "US Social Security Number in canonical hyphenated format: 123-45-6789.",
+      "pattern": "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+    },
+    {
+      "name": "credit_card",
+      "description": "Major card network formats (Visa 4xxx, Mastercard 5x, Discover 6011, Amex 3x), optionally space- or hyphen-delimited.",
+      "pattern": "\\b(?:4\\d{3}|5[1-5]\\d{2}|6011|3[47]\\d{2})[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}\\b"
+    },
+    {
+      "name": "iban",
+      "description": "International Bank Account Number: 2-letter country code, 2 check digits, up to 30 alphanumeric chars.",
+      "pattern": "\\b[A-Z]{2}\\d{2}[A-Z0-9]{4,30}\\b"
+    },
+    {
+      "name": "ipv4",
+      "description": "IPv4 address in dotted-decimal notation. Flagged because IP addresses are PII under GDPR and CCPA.",
+      "pattern": "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b"
+    }
+  ]
+}
