@@ -1,0 +1,4 @@
+{
+  "allowed_tables": ["retail_transactions", "retail_transactions_typed"],
+  "allowed_operations": ["SELECT"]
+}

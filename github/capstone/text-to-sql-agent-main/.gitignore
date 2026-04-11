@@ -1,0 +1,42 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# DuckDB
+data/warehouse.duckdb
+data/warehouse.duckdb.wal
+
+# Run artifacts
+outputs/runs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# markdown (track root docs)
+*.md
+!README.md
+!ARCHITECTURE_AT_A_GLANCE.md
+!IMPLEMENTATION_PLAN.md
+!src/prompts/*.md
+
+# Frontend (cloned separately as its own git repo)
+text-to-sql-agent-frontend/
+
+# Runtime SQLite database (created by bridge_server.py)
+chat_history.db

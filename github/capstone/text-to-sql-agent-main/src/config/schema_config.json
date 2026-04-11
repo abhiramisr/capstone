@@ -1,0 +1,41 @@
+{
+  "schemas": [
+    {
+      "table": "retail_transactions_typed",
+      "columns": [
+        {"name": "Transaction_ID", "type": "DOUBLE", "description": "Unique transaction identifier"},
+        {"name": "Customer_ID", "type": "DOUBLE", "description": "Unique customer identifier"},
+        {"name": "Name", "type": "VARCHAR", "pii": true, "description": "Customer full name"},
+        {"name": "Email", "type": "VARCHAR", "pii": true, "description": "Customer email address"},
+        {"name": "Phone", "type": "DOUBLE", "pii": true, "description": "Customer phone number"},
+        {"name": "Address", "type": "VARCHAR", "pii": true, "description": "Customer street address"},
+        {"name": "City", "type": "VARCHAR", "description": "Customer city"},
+        {"name": "State", "type": "VARCHAR", "description": "Customer state/province"},
+        {"name": "Zipcode", "type": "DOUBLE", "description": "Customer postal code"},
+        {"name": "Country", "type": "VARCHAR", "description": "Customer country"},
+        {"name": "Age", "type": "DOUBLE", "description": "Customer age"},
+        {"name": "Gender", "type": "VARCHAR", "description": "Customer gender"},
+        {"name": "Income", "type": "VARCHAR", "description": "Customer income bracket"},
+        {"name": "Customer_Segment", "type": "VARCHAR", "description": "Customer segment classification"},
+        {"name": "Date", "type": "DATE", "description": "Transaction date (raw)"},
+        {"name": "Year", "type": "DOUBLE", "description": "Transaction year"},
+        {"name": "Month", "type": "VARCHAR", "description": "Transaction month name"},
+        {"name": "Time", "type": "TIME", "description": "Transaction time (raw)"},
+        {"name": "Total_Purchases", "type": "DOUBLE", "description": "Number of items purchased"},
+        {"name": "Amount", "type": "DOUBLE", "description": "Amount per item"},
+        {"name": "Total_Amount", "type": "DOUBLE", "description": "Total transaction amount (revenue)"},
+        {"name": "Product_Category", "type": "VARCHAR", "description": "Product category"},
+        {"name": "Product_Brand", "type": "VARCHAR", "description": "Product brand name"},
+        {"name": "Product_Type", "type": "VARCHAR", "description": "Specific product type"},
+        {"name": "Feedback", "type": "VARCHAR", "description": "Customer feedback text"},
+        {"name": "Shipping_Method", "type": "VARCHAR", "description": "Shipping method used"},
+        {"name": "Payment_Method", "type": "VARCHAR", "description": "Payment method used"},
+        {"name": "Order_Status", "type": "VARCHAR", "description": "Order fulfillment status"},
+        {"name": "Ratings", "type": "DOUBLE", "description": "Customer rating (1-5)"},
+        {"name": "products", "type": "VARCHAR", "description": "Product name/description"},
+        {"name": "date_parsed", "type": "DATE", "description": "Parsed transaction date (alias of Date)"},
+        {"name": "time_parsed", "type": "TIME", "description": "Parsed transaction time (alias of Time)"}
+      ]
+    }
+  ]
+}

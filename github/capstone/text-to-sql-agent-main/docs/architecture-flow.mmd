@@ -1,0 +1,41 @@
+flowchart TD
+    subgraph stage0 [Stage 0 - Setup]
+        RunInit["Run initialization & logging"]
+    end
+    subgraph stage1 [Stage 1 - Parallel]
+        Safety["Input safety check"]
+        Schema["Load data & schema"]
+        BizCtx["Understand business intent"]
+    end
+    subgraph stage2 [Stage 2]
+        TechSpec["Define technical requirements"]
+    end
+    subgraph stage3 [Stage 3]
+        SQLWriter["Generate SQL query"]
+    end
+    subgraph stage4 [Stage 4 - Validation]
+        DetVal["Automated validation - hard gate"]
+        LLMEval["Advisory review"]
+    end
+    subgraph stage5 [Stage 5]
+        Exec["Execute query safely"]
+    end
+    subgraph stage6 [Stage 6]
+        Analysis["Analyze results"]
+        Synthesis["Synthesize final answer"]
+    end
+
+    RunInit --> Safety
+    RunInit --> Schema
+    RunInit --> BizCtx
+    Safety --> TechSpec
+    Schema --> TechSpec
+    BizCtx --> TechSpec
+    TechSpec --> SQLWriter
+    SQLWriter --> DetVal
+    SQLWriter --> LLMEval
+    DetVal -->|blockers| SQLWriter
+    DetVal -->|pass| Exec
+    LLMEval --> Exec
+    Exec --> Analysis
+    Analysis --> Synthesis

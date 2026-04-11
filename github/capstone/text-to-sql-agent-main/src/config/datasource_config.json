@@ -1,0 +1,22 @@
+{
+  "datasources": [
+    {
+      "name": "retail",
+      "type": "duckdb",
+      "description": "Retail transaction data from CSV — customer purchases, product categories, and order details",
+      "tables": [
+        {
+          "name": "retail_transactions_typed",
+          "description": "Retail transactions with parsed date/time columns. Contains customer demographics, purchase amounts, product info, and order status.",
+          "keywords": ["sales", "revenue", "transactions", "purchases", "orders", "customers", "products", "categories", "brands", "payments", "shipping", "ratings", "feedback"]
+        },
+        {
+          "name": "retail_transactions",
+          "description": "Raw retail transactions imported from CSV. Use retail_transactions_typed instead for typed date/time columns.",
+          "keywords": ["raw", "transactions"]
+        }
+      ],
+      "default_table": "retail_transactions_typed"
+    }
+  ]
+}

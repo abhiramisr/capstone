@@ -1,0 +1,4 @@
+{
+  "pii_columns": ["name", "email", "phone", "address"],
+  "detection_mode": "column_name"
+}
