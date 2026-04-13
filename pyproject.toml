@@ -1,0 +1,30 @@
+[project]
+name = "text-to-sql-agent"
+version = "0.1.0"
+description = "Multi-agent text-to-SQL system using OpenAI Agents SDK"
+requires-python = ">=3.11"
+dependencies = [
+    "openai-agents",
+    "duckdb",
+    "sqlglot",
+    "pydantic>=2.0",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn[standard]",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio"]
+fabric = ["pyodbc", "msal"]
+azure = ["openai"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "integration: tests that require external services or credentials",
+]

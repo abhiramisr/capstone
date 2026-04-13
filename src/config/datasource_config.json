@@ -1,0 +1,48 @@
+{
+  "default_datasource": "fabric_wh",
+  "_comment": "Routing only: set default_datasource to fabric_wh (Fabric) or retail_local (DuckDB). Secrets stay in .env — see connection_env per datasource. To add an ERP warehouse later, append a new object with type \"fabric\" or \"duckdb\", name, database, sql_schema, tables, and switch default_datasource.",
+
+  "datasources": [
+    {
+      "name": "fabric_wh",
+      "type": "fabric",
+      "description": "Microsoft Fabric Warehouse over ODBC — service principal (env: AZURE_* , FABRIC_SERVER, FABRIC_DATABASE or FABRIC_CONNECTION_STRING). Read-only enforced in connector.",
+      "connection_env": {
+        "FABRIC_SERVER": "SQL analytics endpoint hostname",
+        "FABRIC_DATABASE": "warehouse / logical database name (replaces OpenDataBay if you rename)",
+        "AZURE_TENANT_ID": "Azure AD tenant",
+        "AZURE_CLIENT_ID": "service principal app id",
+        "AZURE_CLIENT_SECRET": "service principal secret",
+        "FABRIC_CONNECTION_STRING": "optional full ODBC string (overrides server/database build)"
+      },
+      "sql_schema": "dbo",
+      "database": "OpenDataBay",
+      "tables": [
+        {
+          "name": "tbltransactions",
+          "description": "Retail-style transaction fact table in Fabric (replaces DuckDB retail_transactions_typed for USE_FABRIC runs).",
+          "keywords": ["sales", "revenue", "transactions", "purchases", "orders", "customers", "products", "fabric"]
+        }
+      ],
+      "default_table": "tbltransactions"
+    },
+    {
+      "name": "retail_local",
+      "type": "duckdb",
+      "description": "Retail transaction CSV loaded into in-memory DuckDB for local / dev runs.",
+      "tables": [
+        {
+          "name": "retail_transactions_typed",
+          "description": "Retail transactions with parsed date/time columns.",
+          "keywords": ["sales", "revenue", "transactions", "purchases", "orders", "customers", "products"]
+        },
+        {
+          "name": "retail_transactions",
+          "description": "Raw retail CSV import.",
+          "keywords": ["raw", "transactions"]
+        }
+      ],
+      "default_table": "retail_transactions_typed"
+    }
+  ]
+}

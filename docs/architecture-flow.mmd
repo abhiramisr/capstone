@@ -1,0 +1,49 @@
+flowchart TD
+    subgraph stage0 [Stage 0 - Setup]
+        RunInit["Run initialization & logging"]
+        Schema["Connect to data backend & introspect schema"]
+    end
+    subgraph stage1 [Stage 1 - Input Guardrail]
+        Safety["Deterministic safety check\n(injection, abuse patterns)"]
+    end
+    subgraph stage2 [Stage 2 - Clarification]
+        Clarity["Clarification Agent\n(is the question clear?)"]
+    end
+    subgraph stage3 [Stage 3 - Routing]
+        Router["Query Router Agent\n(select datasource & tables)"]
+    end
+    subgraph stage4 [Stage 4 - SQL Generation]
+        NLQ["NLQ Agent\n(question → SQL)"]
+    end
+    subgraph stage5 [Stage 5 - Validation]
+        RegexGuard["SQL Guardrail\n(regex / allowlist)"]
+        ASTVal["AST Validation\n(sqlglot — hard gate)"]
+    end
+    subgraph stage6 [Stage 6 - Execution]
+        Exec["Execute SQL\n(DuckDB or Fabric ODBC)"]
+        Redact["PII redaction on preview"]
+    end
+    subgraph stage7 [Stage 7 - Answer]
+        RAG["RAG Agent\n(grounded answer from results)"]
+    end
+    subgraph stage8 [Stage 8 - Output Guardrail]
+        OutGuard["Quality & grounding check"]
+    end
+
+    RunInit --> Schema
+    Schema --> Safety
+    Safety -->|hard block| Stop(("Blocked"))
+    Safety -->|pass / soft warn| Clarity
+    Clarity -->|needs clarification| ClarifyUser(("Ask user"))
+    Clarity -->|clear| Router
+    Router --> NLQ
+    NLQ --> RegexGuard
+    RegexGuard -->|blocked| NLQ
+    RegexGuard -->|pass| ASTVal
+    ASTVal -->|blockers| NLQ
+    ASTVal -->|pass| Exec
+    Exec --> Redact
+    Redact --> RAG
+    RAG --> OutGuard
+    OutGuard -->|critical| Rejected(("Response blocked"))
+    OutGuard -->|pass| FinalAnswer(("Answer + SQL + Chart"))

@@ -1,0 +1,40 @@
+{
+  "description": "Defines the database tables the NLQ agent is permitted to query per datasource. The SQL guardrail validates all generated SQL against these allowlists at runtime. To onboard a new data source, add an entry to the 'datasources' array — no code changes are required.",
+  "last_updated": "2026-04-11",
+  "datasources": [
+    {
+      "name": "OpenDataBay",
+      "type": "fabric_warehouse",
+      "allowed_tables": [
+        "retail_transactions"
+      ],
+      "allowed_operations": [
+        "SELECT"
+      ]
+    },
+    {
+      "name": "GenericERP",
+      "type": "fabric_warehouse",
+      "allowed_tables": [
+        "sales",
+        "customers",
+        "invoices",
+        "products"
+      ],
+      "allowed_operations": [
+        "SELECT"
+      ]
+    },
+    {
+      "name": "retail_local",
+      "type": "duckdb",
+      "allowed_tables": [
+        "retail_transactions",
+        "retail_transactions_typed"
+      ],
+      "allowed_operations": [
+        "SELECT"
+      ]
+    }
+  ]
+}

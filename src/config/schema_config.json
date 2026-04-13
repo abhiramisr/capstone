@@ -1,0 +1,115 @@
+{
+  "_meta": "Loaded at runtime; introspected types override column types when present. Edit relationships / descriptions here without code changes.",
+  "schemas": [
+    {
+      "table": "retail_transactions_typed",
+      "description": "Retail orders and line attributes sourced from the OpenDataBay-style sample CSV.",
+      "primary_key_candidates": ["Transaction_ID"],
+      "relationships": [],
+      "columns": [
+        {"name": "Transaction_ID", "type": "DOUBLE", "description": "Unique transaction identifier"},
+        {"name": "Customer_ID", "type": "DOUBLE", "description": "Unique customer identifier"},
+        {"name": "Name", "type": "VARCHAR", "pii": true, "description": "Customer full name"},
+        {"name": "Email", "type": "VARCHAR", "pii": true, "description": "Customer email address"},
+        {"name": "Phone", "type": "DOUBLE", "pii": true, "description": "Customer phone number"},
+        {"name": "Address", "type": "VARCHAR", "pii": true, "description": "Customer street address"},
+        {"name": "City", "type": "VARCHAR", "description": "Customer city"},
+        {"name": "State", "type": "VARCHAR", "description": "Customer state/province"},
+        {"name": "Zipcode", "type": "DOUBLE", "description": "Customer postal code"},
+        {"name": "Country", "type": "VARCHAR", "description": "Customer country"},
+        {"name": "Age", "type": "DOUBLE", "description": "Customer age"},
+        {"name": "Gender", "type": "VARCHAR", "description": "Customer gender"},
+        {"name": "Income", "type": "VARCHAR", "description": "Customer income bracket"},
+        {"name": "Customer_Segment", "type": "VARCHAR", "description": "Customer segment classification"},
+        {"name": "Date", "type": "DATE", "description": "Transaction date (raw)"},
+        {"name": "Year", "type": "DOUBLE", "description": "Transaction year"},
+        {"name": "Month", "type": "VARCHAR", "description": "Transaction month name"},
+        {"name": "Time", "type": "TIME", "description": "Transaction time (raw)"},
+        {"name": "Total_Purchases", "type": "DOUBLE", "description": "Number of items purchased"},
+        {"name": "Amount", "type": "DOUBLE", "description": "Amount per item"},
+        {"name": "Total_Amount", "type": "DOUBLE", "description": "Total transaction amount (revenue)"},
+        {"name": "Product_Category", "type": "VARCHAR", "description": "Product category"},
+        {"name": "Product_Brand", "type": "VARCHAR", "description": "Product brand name"},
+        {"name": "Product_Type", "type": "VARCHAR", "description": "Specific product type"},
+        {"name": "Feedback", "type": "VARCHAR", "description": "Customer feedback text"},
+        {"name": "Shipping_Method", "type": "VARCHAR", "description": "Shipping method used"},
+        {"name": "Payment_Method", "type": "VARCHAR", "description": "Payment method used"},
+        {"name": "Order_Status", "type": "VARCHAR", "description": "Order fulfillment status"},
+        {"name": "Ratings", "type": "DOUBLE", "description": "Customer rating (1-5)"},
+        {"name": "products", "type": "VARCHAR", "description": "Product name/description"},
+        {"name": "date_parsed", "type": "DATE", "description": "Parsed transaction date (alias of Date)"},
+        {"name": "time_parsed", "type": "TIME", "description": "Parsed transaction time (alias of Time)"}
+      ]
+    },
+    {
+      "table": "tbltransactions",
+      "description": "Transaction fact table in Microsoft Fabric (dbo.tbltransactions). Same logical columns as the local DuckDB retail sample; Date is stored as string — use TRY_CONVERT or CAST for date filters in T-SQL.",
+      "primary_key_candidates": ["Transaction_ID"],
+      "relationships": [],
+      "columns": [
+        {"name": "Transaction_ID", "type": "INT", "description": "Unique transaction identifier"},
+        {"name": "Customer_ID", "type": "INT", "description": "Unique customer identifier"},
+        {"name": "Name", "type": "VARCHAR", "pii": true, "description": "Customer full name"},
+        {"name": "Email", "type": "VARCHAR", "pii": true, "description": "Customer email address"},
+        {"name": "Phone", "type": "BIGINT", "pii": true, "description": "Customer phone number"},
+        {"name": "Address", "type": "VARCHAR", "pii": true, "description": "Customer street address"},
+        {"name": "City", "type": "VARCHAR", "description": "Customer city"},
+        {"name": "State", "type": "VARCHAR", "description": "Customer state/province"},
+        {"name": "Zipcode", "type": "INT", "description": "Customer postal code"},
+        {"name": "Country", "type": "VARCHAR", "description": "Customer country"},
+        {"name": "Age", "type": "INT", "description": "Customer age"},
+        {"name": "Gender", "type": "VARCHAR", "description": "Customer gender"},
+        {"name": "Income", "type": "VARCHAR", "description": "Customer income bracket"},
+        {"name": "Customer_Segment", "type": "VARCHAR", "description": "Customer segment classification"},
+        {"name": "Date", "type": "VARCHAR", "description": "Transaction date (string in warehouse — cast for comparisons)"},
+        {"name": "Year", "type": "INT", "description": "Transaction year"},
+        {"name": "Month", "type": "VARCHAR", "description": "Transaction month name"},
+        {"name": "Time", "type": "DATETIME2", "description": "Transaction time"},
+        {"name": "Total_Purchases", "type": "INT", "description": "Number of items purchased"},
+        {"name": "Amount", "type": "FLOAT", "description": "Amount per item"},
+        {"name": "Total_Amount", "type": "FLOAT", "description": "Total transaction amount (revenue)"},
+        {"name": "Product_Category", "type": "VARCHAR", "description": "Product category"},
+        {"name": "Product_Brand", "type": "VARCHAR", "description": "Product brand name"},
+        {"name": "Product_Type", "type": "VARCHAR", "description": "Specific product type"},
+        {"name": "Feedback", "type": "VARCHAR", "description": "Customer feedback text"},
+        {"name": "Shipping_Method", "type": "VARCHAR", "description": "Shipping method used"},
+        {"name": "Payment_Method", "type": "VARCHAR", "description": "Payment method used"},
+        {"name": "Order_Status", "type": "VARCHAR", "description": "Order fulfillment status"},
+        {"name": "Ratings", "type": "INT", "description": "Customer rating (1-5)"},
+        {"name": "products", "type": "VARCHAR", "description": "Product name/description"}
+      ]
+    },
+    {
+      "table": "erp_order_headers",
+      "description": "Example ERP shape for a future datasource entry — no local data until ERP connector lands.",
+      "primary_key_candidates": ["order_id"],
+      "relationships": [
+        {
+          "name": "header_to_lines",
+          "to_table": "erp_order_lines",
+          "from_columns": ["order_id"],
+          "to_columns": ["order_id"],
+          "cardinality": "one_to_many"
+        }
+      ],
+      "columns": [
+        {"name": "order_id", "type": "BIGINT", "description": "Sales order identifier"},
+        {"name": "customer_ref", "type": "VARCHAR", "description": "External customer key"},
+        {"name": "order_date", "type": "DATE", "description": "Order date"}
+      ]
+    },
+    {
+      "table": "erp_order_lines",
+      "description": "Example ERP line items paired with er_order_headers.",
+      "primary_key_candidates": ["order_line_id"],
+      "relationships": [],
+      "columns": [
+        {"name": "order_line_id", "type": "BIGINT", "description": "Line key"},
+        {"name": "order_id", "type": "BIGINT", "description": "Parent order"},
+        {"name": "sku", "type": "VARCHAR", "description": "Item SKU"},
+        {"name": "quantity", "type": "DECIMAL", "description": "Ordered qty"},
+        {"name": "unit_price", "type": "DECIMAL", "description": "Unit price"}
+      ]
+    }
+  ]
+}
