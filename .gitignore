@@ -41,3 +41,4 @@ text-to-sql-agent-frontend/
 
 # Runtime SQLite database (created by bridge_server.py)
 chat_history.db
+"*.csv" 
